@@ -8,6 +8,7 @@ install:
   - tpip=$(which pip)
   - $tpip install -r requirements.txt
 # command to run tests
+before_script: ls .
 script: 
   - python testsite/manage.py makemigrations
   - python testsite/manage.py migrate
