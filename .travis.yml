@@ -2,16 +2,26 @@ sudo: required
 language: python
 python:
   - 2.7
-# command to install dependencies
-install: 
-  - ./install-dependencies.sh
+install:
+  - "./install-dependencies.sh"
   - tpip=$(which pip)
-  - $tpip install -r requirements.txt
-# command to run tests
+  - "$tpip install -r requirements.txt"
 before_script: ls .
-script: 
+script:
   - python testsite/manage.py makemigrations
   - python testsite/manage.py migrate
-
-
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  api_key:
+    secure: gWgzt6v+3SE6WL031EfCVFk+gg00CDVfTfbY+oaRnK52y5cKYWFVOF8hUYvdbREu7xrrBPIcPJXHqBA8fh+WXyQG5LHVCr+Hk8HfnhqmPvhLVLsST/B0vDL6C29v1/muTor18MaoZgAEAX/SasjNQCwZOm9cznDooQXBiPzRm9R3bxcDztyXTAT7DfT7MUyqYlm1wosFBvxNZP9yUjlNtAhiDydNmDIw5QSOyutAKYT6fb6/9MVDUPMLVZ1Fz6D5Z2Hp/mn2KQoOBnbY/URBz+IuuxS3GJh8WADo9xuhbNQKiPd8XHmiSnR6PnhpVcfkQknUVGIbBOKNtCO8n3+JuA0cztGC4BO5EXNcKm7/nITkcI2+2tqEUT7dLcLspk5q+xYftAIDl9HXflqwWvIwQxPfrNNg+XkX9C0czXuI6gZtZIrpJPgpF3qn/2tC0MePbl2EO2RBsj8XfGhcNNnnCcnxfxlxWSiXOjmAJmez2EF58SM7PPAZdFxIFRWSTvpSYpSDxhnV8NlpBvN+3BYehXcykyXBKmK69NJvFHH7+NtFVxgHbl/6aI5AlLat6JdVTSqV8tiAfiqdwSJ2Wmq1TLlWgZyMX88t6vFEhNGfa/DGzhvrzweeHJsPEniaormLjmRUjnrsCQ2lL/tNxHDIiAMgDxZv10EdkZfacv+uGVg=
+  on: 
+    - branch: master
+  app: test-travisci-heroku
+  run:
+    - tpython=$(which python)
+    - "$tpython testsite/manage.py makemigrations"
+    - "$tpython testsite/manage.py migrate"
+    - restart
+    - "$tpython testsite/manage.py runserver 5000"
 
