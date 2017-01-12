@@ -23,5 +23,5 @@ deploy:
     - "$tpython testsite/manage.py makemigrations"
     - "$tpython testsite/manage.py migrate"
     - restart
-    - "$tpython testsite/manage.py runserver 5000"
+    - "$tpython testsite/manage.py runserver"
 
