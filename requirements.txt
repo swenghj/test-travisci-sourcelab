@@ -1,3 +1,9 @@
 Django==1.10.5
 py==1.4.32
 pytest==3.0.5
+
+#heroku deployment
+dj-database-url==0.4.1
+gunicorn==19.6.0
+psycopg2==2.6.1
+whitenoise==2.0.6
