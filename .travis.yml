@@ -6,12 +6,16 @@ install:
   - "./install-dependencies.sh"
   - "tpip=$(which pip)"
   - "$tpip install -r requirements.txt"
-before_script: 
+#before_script: 
   - ls .
-  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+#  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
 script:
   - python testsite/manage.py makemigrations
   - python testsite/manage.py migrate
+  - "git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git"
+  - ls .
+  - "cd selenium/automation"
+  - "python test-saucelabs.py"
 addons:
   sauce_connect:
     username: test-travisci-sauce
@@ -31,10 +35,9 @@ deploy:
     - "$tpython testsite/manage.py migrate"
     - restart
 #    - "$tpython testsite/manage.py runserver"
-after_deploy: 
-  run:
-    - "git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git"
-    - ls .
-    - "cd selenium/automation"
-    - "python test-saucelabs.py"
-
+#after_deploy: 
+#  run:
+#    - "git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git"
+#    - ls .
+#    - "cd selenium/automation"
+#    - "python test-saucelabs.py"
