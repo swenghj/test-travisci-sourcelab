@@ -12,7 +12,9 @@ install:
 script:
   - python testsite/manage.py makemigrations
   - python testsite/manage.py migrate
+  - mkdir saucelab; cd saucelab
   - "git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git"
+  - cd test-travisci-sourcelab
   - ls .
   - "cd selenium/automation"
   - "python test-saucelabs.py"
