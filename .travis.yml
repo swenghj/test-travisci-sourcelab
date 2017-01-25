@@ -19,10 +19,7 @@ script:
   - "cd selenium/automation"
   - "python test-saucelabs.py"
 addons:
-  sauce_connect:
-    username: test-travisci-sauce
-  jwt:
-    secure: YE/mxT6BIe6RrgzDwylXit3uW0us4lAu465Yh4x2eEAWtAa6rUkOuJQ7YgUnvY1nGlVLroFIZVU+PkCIWZ8+q55evqwNqwzmi9rEa5VhC3eY/tzavHeZ0+N4PIPwTjv+dwDXLZWaY8YfsFkAijHkRxJdCQoumJrwnFitX51gwsTVBNisQmqQ3/3hNZnqeBEVPG3oSdEslvXDvZFG+4vob8eeOMM1k3/sOhrNajvDl/MX27yJKC+T012dph472x9hdKUiCKLQgspUqejkegxgQDARp4/YCoreUWgkh8f2RVmS+oWlAorD8PX0eb2uhX1fOc7uX8qTWlsdM4zRGYwNqaHfjkJRx6FwNZz0Nvctw4nXIpLD8K7x5JTGNxu2vPoraMF7POdTIToaTT7Yt3SflbgKc9l8RVJFVvy0h1+egjfLeDKCANYRrUVj/aKxSpFHcmdP0xMK4ZWTQTZORQ7xVBP1cPLLdFtWhMHMp6zFs3J0QEvasU76q6HYee4ZyhYOs3oyT686rmnoS3qlpOMglMocc3c2dXuX/M8o1zG3oyCmKmAVmUcyB090MonXmj0M5iteimzg97Op/zJW56JlFnys2YhT8zKTQlpQqzNqFiCc2Bm6HmqolD+ZmhCRUTrtqZdOcvg2VeC+7iNo1k4VhY2XOyUbdR3VCEi3gzH9AFQ=
+  sauce_connect: true
 deploy:
   skip_cleanup: true
   provider: heroku
