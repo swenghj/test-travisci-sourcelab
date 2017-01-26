@@ -15,9 +15,18 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from datetime import datetime, timedelta
 from optparse import OptionParser
 import time, unittest, os, json
-
 from autotools import demo_api as api
 from autotools import HTMLTestRunner
+
+# travisci environment variables
+username = os.environ.get('SAUCE_USERNAME')
+access_key = os.environ.get('SAUCE_ACCESS_KEY')
+saucelab_environment_details = {
+    'platform': "OS X 10.11",
+    'browserName': "firefox",
+    'version': "44.0",
+    'name': "Test: travisci-saucelabs"
+}
 
 with open("data/login.json") as data_file:
     server = json.load(data_file)
@@ -46,6 +55,11 @@ else: urladdress = server["domain"]
 
 # parsing the web browser testing option and checking system os
 if options.drivername == "chrome": WebDriver = webdriver.Chrome(chromedriver)
+elif options.drivername == "sauce":
+    WebDriver = webdriver.Remote(
+        command_executor='http://%s:%s@ondemand.saucelabs.com:80/wd/hub' % (username, access_key),
+        desired_capabilities=saucelab_environment_details
+    )
 else: WebDriver = webdriver.Firefox(firefox_profile=profile)
 #else: WebDriver = webdriver.Firefox()
 
