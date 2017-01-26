@@ -1,23 +1,21 @@
 sudo: required
 language: python
 python:
-  - 2.7
+- 2.7
 install:
-  - "./install-dependencies.sh"
-  - "tpip=$(which pip)"
-  - "$tpip install -r requirements.txt"
-#before_script: 
-  - ls .
-#  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+- ./install-dependencies.sh
+- tpip=$(which pip)
+- $tpip install -r requirements.txt
+- ls .
 script:
-  - python testsite/manage.py makemigrations
-  - python testsite/manage.py migrate
-  - mkdir saucelab; cd saucelab
-  - "git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git"
-  - cd test-travisci-sourcelab
-  - ls .
-  - "cd selenium/automation"
-  - "python test-saucelabs.py"
+- python testsite/manage.py makemigrations
+- python testsite/manage.py migrate
+- mkdir saucelab; cd saucelab
+- git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
+- cd test-travisci-sourcelab
+- ls .
+- cd selenium/automation
+- python test-saucelabs.py
 addons:
   sauce_connect: true
 deploy:
@@ -25,18 +23,15 @@ deploy:
   provider: heroku
   api_key:
     secure: gWgzt6v+3SE6WL031EfCVFk+gg00CDVfTfbY+oaRnK52y5cKYWFVOF8hUYvdbREu7xrrBPIcPJXHqBA8fh+WXyQG5LHVCr+Hk8HfnhqmPvhLVLsST/B0vDL6C29v1/muTor18MaoZgAEAX/SasjNQCwZOm9cznDooQXBiPzRm9R3bxcDztyXTAT7DfT7MUyqYlm1wosFBvxNZP9yUjlNtAhiDydNmDIw5QSOyutAKYT6fb6/9MVDUPMLVZ1Fz6D5Z2Hp/mn2KQoOBnbY/URBz+IuuxS3GJh8WADo9xuhbNQKiPd8XHmiSnR6PnhpVcfkQknUVGIbBOKNtCO8n3+JuA0cztGC4BO5EXNcKm7/nITkcI2+2tqEUT7dLcLspk5q+xYftAIDl9HXflqwWvIwQxPfrNNg+XkX9C0czXuI6gZtZIrpJPgpF3qn/2tC0MePbl2EO2RBsj8XfGhcNNnnCcnxfxlxWSiXOjmAJmez2EF58SM7PPAZdFxIFRWSTvpSYpSDxhnV8NlpBvN+3BYehXcykyXBKmK69NJvFHH7+NtFVxgHbl/6aI5AlLat6JdVTSqV8tiAfiqdwSJ2Wmq1TLlWgZyMX88t6vFEhNGfa/DGzhvrzweeHJsPEniaormLjmRUjnrsCQ2lL/tNxHDIiAMgDxZv10EdkZfacv+uGVg=
-  on: 
+  on:
     branch: master
   app: test-travisci-heroku
   run:
-    - "tpython=$(which python)"
-    - "$tpython testsite/manage.py makemigrations"
-    - "$tpython testsite/manage.py migrate"
-    - restart
-#    - "$tpython testsite/manage.py runserver"
-#after_deploy: 
-#  run:
-#    - "git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git"
-#    - ls .
-#    - "cd selenium/automation"
-#    - "python test-saucelabs.py"
+  - tpython=$(which python)
+  - $tpython testsite/manage.py makemigrations
+  - $tpython testsite/manage.py migrate
+  - restart
+env:
+  global:
+  - secure: AQJX1csMF02qEbo0FHoqncTpKKB4yk8UXIfA99wtNE0P/IgrCnJNA9K+207gI703NYKd1wC5n/7a70jhctRLK+/lq2x1msrgxt7iwLqZT5M1B36f5wSS9CwR7oR/+PXYL90tcEDt99f8/JbWflNVZE7EukKXsb1W6i/CYokzxoZJqzfvSU6jGaaNZzHoMNApMjzjjY9jgb4kzO5ZocTRkMDjEjOe3zdWwSQ9ZVjCxh2RQYIWZ6xlXyScY3VrWanw6Q9ENV6ZVK75mP/2on0IPDl0YN3mbGsCPryI7olXyqqFZiv/bDMY94mzM0Wj6w6qicDzU108i4uXuOBnSlsDRrI1waUFjNUxC0GT8roNNNcL70K4x6ubm5zLE0gRyNvvGeHI4zUAZH+AZJelIdGPXFUV54tqVh5mr7mfbdk8euoAI8U5OYWYdeecFAOOZvtVu/7BzzTLLynJAxOxjWmwyKBwaOyZ2rkEOqE+ZNZksrhQcBWpUuEIinUKzKFaMvhKG+VLrMW/T0ka1On+GShpo2iVtSKMpz+5hTBYcG6DBgEQX7OnYWBEgS4riG0FzE3E8DRJtTchyDhIBRfwKg04n+VulC7j8wrqiDwwgrBFK7C+lHnzSgj2ElreFqoQi8J6eDUdfwc9nte/1KWxvF/6gybOVEPATDRbRVn6LYMpFaM=
+  - secure: D6p9Y8kGQn47RlHFTw5lmf5fuac2PzEcOuSHGEj3+ilubB3P7j3yZo1v6dUx+PKVSt4fKodT505L3kNDC6/Ary10nb67QQ0c6hEi1qrbxvHg1u/9VqWFKWsqZNjoTLJfsem0UvMUf8PTftmMykvow0iNccmKZtsj5b80bGBbVbDyPFWjiNce8Dtj8jGF7WCvIpHhiZa4lTHn6Sn81pjX3pImE9qUlVudLcOxnJIimFQFtyrBCMRtlBNHfcEaIoOlC0k9Cfm7fktPIA8+ZDhmJ6zbp2ueu8/dODZ2ZWWEhQSwHma/iOo7etykzKk7QLj9ASEwYrElgBd1+hCH77/uiRiJeI1Nngx+YOjY28se0/PDPVQlez+6eMfIwNUJkMtSa9dKPPcQLhdTQuY+EgaJ6WD+O5rtucLGpo3xwMLKciYmsNMh6Lvhl1CxM2m7rsPQMPBlkbPOcj5PjjacybAEXFFLNr8+mAUV7v4EbaS4VP6z/SsRLevzA+l7cWrK9o27cT0y1mvQ+Hkt7Ufpzi0I6AX7fRBx8aLBzQxS1Ms+CjjR4owyh+3N2LXNafmzlJw0YN9gx4zR3eUoPUt8Ogvff5LTGYT1RkugvGX4YoIO3wAGNJ/I0D4SAhzpAzI3YAFsUztb/S1Q6oN/JHRY9a37ydnq8oeZZLf7+NxLxmVxzNo=
