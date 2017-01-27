@@ -33,7 +33,7 @@ deploy:
   - tpython=$(which python)
   - $tpython testsite/manage.py makemigrations
   - $tpython testsite/manage.py migrate
-  - python testsite/manage.py runserver &
+#  - python testsite/manage.py runserver &
   - restart
   - mkdir saucelab; cd saucelab
   - git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
