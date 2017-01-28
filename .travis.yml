@@ -33,14 +33,15 @@ deploy:
   - tpython=$(which python)
   - $tpython testsite/manage.py makemigrations
   - $tpython testsite/manage.py migrate
-#  - python testsite/manage.py runserver &
   - restart
-  - mkdir saucelab; cd saucelab
-  - git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
-  - cd test-travisci-sourcelab
-  - ls .
-  - cd selenium/automation
-  - python demo-regression.py
+#  - python testsite/manage.py runserver &
+after_deploy:
+- mkdir saucelab; cd saucelab
+- git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
+- cd test-travisci-sourcelab
+- ls .
+- cd selenium/automation
+- python demo-regression.py
 env:
   global:
   - secure: AQJX1csMF02qEbo0FHoqncTpKKB4yk8UXIfA99wtNE0P/IgrCnJNA9K+207gI703NYKd1wC5n/7a70jhctRLK+/lq2x1msrgxt7iwLqZT5M1B36f5wSS9CwR7oR/+PXYL90tcEDt99f8/JbWflNVZE7EukKXsb1W6i/CYokzxoZJqzfvSU6jGaaNZzHoMNApMjzjjY9jgb4kzO5ZocTRkMDjEjOe3zdWwSQ9ZVjCxh2RQYIWZ6xlXyScY3VrWanw6Q9ENV6ZVK75mP/2on0IPDl0YN3mbGsCPryI7olXyqqFZiv/bDMY94mzM0Wj6w6qicDzU108i4uXuOBnSlsDRrI1waUFjNUxC0GT8roNNNcL70K4x6ubm5zLE0gRyNvvGeHI4zUAZH+AZJelIdGPXFUV54tqVh5mr7mfbdk8euoAI8U5OYWYdeecFAOOZvtVu/7BzzTLLynJAxOxjWmwyKBwaOyZ2rkEOqE+ZNZksrhQcBWpUuEIinUKzKFaMvhKG+VLrMW/T0ka1On+GShpo2iVtSKMpz+5hTBYcG6DBgEQX7OnYWBEgS4riG0FzE3E8DRJtTchyDhIBRfwKg04n+VulC7j8wrqiDwwgrBFK7C+lHnzSgj2ElreFqoQi8J6eDUdfwc9nte/1KWxvF/6gybOVEPATDRbRVn6LYMpFaM=
