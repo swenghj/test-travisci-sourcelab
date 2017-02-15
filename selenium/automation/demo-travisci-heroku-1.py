@@ -25,7 +25,12 @@ saucelab_environment_details = {
     'platform': "OS X 10.11",
     'browserName': "firefox",
     'version': "44.0",
-    'name': "Test: travisci-saucelabs"
+    'name': "Test: travisci-saucelabs",
+    'tunnel-identifier': os.environ.get('TRAVIS_JOB_NUMBER'),
+    'build': os.environ.get('TRAVIS_BUILD_NUMBER'),
+    'tags': [os.environ.get('TRAVIS_PYTHON_VERSION'), 'CI'],
+    'username': username,
+    'key': access_key
 }
 
 with open("data/login.json") as data_file:
