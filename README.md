@@ -1,4 +1,4 @@
 # Test the integration
 - Github
 - Travis CI
-- Source Lab/Source Connect
+- Sauce Labs/Sauce Connect
