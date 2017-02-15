@@ -28,6 +28,7 @@ deploy:
   - "$tpython testsite/manage.py migrate"
   - restart
 after_deploy:
+- python testsite/manage.py runserver &
 - mkdir saucelab; cd saucelab
 - git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
 - cd test-travisci-sourcelab
