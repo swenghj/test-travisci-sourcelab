@@ -3,21 +3,14 @@ language: python
 python:
 - 2.7
 install:
-- ./install-dependencies.sh
+- "./install-dependencies.sh"
 - tpip=$(which pip)
-- $tpip install -r requirements.txt
+- "$tpip install -r requirements.txt"
 - ls .
 script:
 - python testsite/manage.py makemigrations
 - python testsite/manage.py migrate
-#- python testsite/manage.py runserver &
-#- mkdir saucelab; cd saucelab
-#- git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
-#- cd test-travisci-sourcelab
 - ls .
-#- cd selenium/automation
-#- python demo-regression.py
-#- sleep 10
 addons:
   sauce_connect: true
 deploy:
@@ -31,11 +24,11 @@ deploy:
   run:
   - ls .
   - tpython=$(which python)
-  - $tpython testsite/manage.py makemigrations
-  - $tpython testsite/manage.py migrate
+  - "$tpython testsite/manage.py makemigrations"
+  - "$tpython testsite/manage.py migrate"
   - restart
-#  - python testsite/manage.py runserver &
 after_deploy:
+- python testsite/manage.py runserver &
 - mkdir saucelab; cd saucelab
 - git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
 - cd test-travisci-sourcelab
@@ -44,5 +37,5 @@ after_deploy:
 - python demo-regression.py
 env:
   global:
-  - secure: AQJX1csMF02qEbo0FHoqncTpKKB4yk8UXIfA99wtNE0P/IgrCnJNA9K+207gI703NYKd1wC5n/7a70jhctRLK+/lq2x1msrgxt7iwLqZT5M1B36f5wSS9CwR7oR/+PXYL90tcEDt99f8/JbWflNVZE7EukKXsb1W6i/CYokzxoZJqzfvSU6jGaaNZzHoMNApMjzjjY9jgb4kzO5ZocTRkMDjEjOe3zdWwSQ9ZVjCxh2RQYIWZ6xlXyScY3VrWanw6Q9ENV6ZVK75mP/2on0IPDl0YN3mbGsCPryI7olXyqqFZiv/bDMY94mzM0Wj6w6qicDzU108i4uXuOBnSlsDRrI1waUFjNUxC0GT8roNNNcL70K4x6ubm5zLE0gRyNvvGeHI4zUAZH+AZJelIdGPXFUV54tqVh5mr7mfbdk8euoAI8U5OYWYdeecFAOOZvtVu/7BzzTLLynJAxOxjWmwyKBwaOyZ2rkEOqE+ZNZksrhQcBWpUuEIinUKzKFaMvhKG+VLrMW/T0ka1On+GShpo2iVtSKMpz+5hTBYcG6DBgEQX7OnYWBEgS4riG0FzE3E8DRJtTchyDhIBRfwKg04n+VulC7j8wrqiDwwgrBFK7C+lHnzSgj2ElreFqoQi8J6eDUdfwc9nte/1KWxvF/6gybOVEPATDRbRVn6LYMpFaM=
-  - secure: D6p9Y8kGQn47RlHFTw5lmf5fuac2PzEcOuSHGEj3+ilubB3P7j3yZo1v6dUx+PKVSt4fKodT505L3kNDC6/Ary10nb67QQ0c6hEi1qrbxvHg1u/9VqWFKWsqZNjoTLJfsem0UvMUf8PTftmMykvow0iNccmKZtsj5b80bGBbVbDyPFWjiNce8Dtj8jGF7WCvIpHhiZa4lTHn6Sn81pjX3pImE9qUlVudLcOxnJIimFQFtyrBCMRtlBNHfcEaIoOlC0k9Cfm7fktPIA8+ZDhmJ6zbp2ueu8/dODZ2ZWWEhQSwHma/iOo7etykzKk7QLj9ASEwYrElgBd1+hCH77/uiRiJeI1Nngx+YOjY28se0/PDPVQlez+6eMfIwNUJkMtSa9dKPPcQLhdTQuY+EgaJ6WD+O5rtucLGpo3xwMLKciYmsNMh6Lvhl1CxM2m7rsPQMPBlkbPOcj5PjjacybAEXFFLNr8+mAUV7v4EbaS4VP6z/SsRLevzA+l7cWrK9o27cT0y1mvQ+Hkt7Ufpzi0I6AX7fRBx8aLBzQxS1Ms+CjjR4owyh+3N2LXNafmzlJw0YN9gx4zR3eUoPUt8Ogvff5LTGYT1RkugvGX4YoIO3wAGNJ/I0D4SAhzpAzI3YAFsUztb/S1Q6oN/JHRY9a37ydnq8oeZZLf7+NxLxmVxzNo=
+  - secure: Ustn65jLoW3uT0qtZGfMKA+DE80/oTGhCc1OARWhHofHqn293H4fB0FhHqXaRo5ViiQ2Z4SieoOPmAmXkG1WQAV0m7kr9nM+3hwLR5F23T7oL/IgElelOwon49EgltbCPg6I9+silZvXTQqefg2ZqEyTCXwIy4tgY5lUnPfM8vnJGnJmm72Pzg598A2jMnMOR7xYeJoA2Se+6R8ehO2T3XdeJXXq//iv+m3HcF704bA1SeaVqgpGCowb8Mv6HDlGGbY/nqOkK91ElMv8kiWgkkFbVThYkATCX6e6JAMog0th6y8eCmBrK6+0SUWz9EoOKmrrGeBT3LCsvAelBl8zQa44NRPs4ekAT2dRdY11xj+UredVLVS+hmf30/9omOnkvy2jKmO5q/EdRZXUOy9isU0a8K5/vnRqYJ8h0+6KWkaR4MgjTGkpV67t0tQ/qxNHcm5ta+xYCry2fB5Hjo2vcwPImu6g+AObhs3InWTpq4FT4b0IxHYGoZ1o8DfmK0EiY3YUx25kJDsz1/24tPEdbkmPLo5j2HbQPgkDuWEBuhcX6k3eUd4kK9RAdZpBNURYVpO6E5yl3WhBX3Tlx1aYCfHFls2XuXSWsmEYEVVThULRsLIuCxb0thp4bf6W2teuraDsnSOMhv9sypdhewAjCG6NdJka/nwdB4kV5WleCFc=
+  - secure: K6EN3/kerUCSCRyfd38cEpxP3af3/8Wlrubb3JnH4ZcG/IT35Aosl1ManGsjG9pMdOLIIpiPTcIj2vToU88XJ4/tkshjrMYcNqz0e7nMpaZQBKo4F7bb9lXXzd0AKcLxCd5oIc2B0LR/kCs+/Xh5IlLj9y/pWIWwKh1WjT+wbL4rOjrFW8vjdHtXFX/ASTt8XO8Oof9MnKEgopx4IkCWuBJTvfHOirU9bpuMMypoCWyi4gp4vVxeuCfriAb2AzwYL2oGBAHbqzgQyBJtbtdiF7xW6+oJAhqmQtE8YJ+dtqL+OVpx09lzhjEBanuXd5zo33MnlCi90q52DF8P6aswSEdqiVuW5KDd49/i3LwG/4hGPVscbM71OHG6VrHb6SEN5AAxrFm8QED0CKlIWzz4Czj5L+3/kvRAItNMqi9Vu/y2JjFTsjAxTilKiZN3LhK3OUjc9IvMQrHzNBvxZWlTag8qpNzH6OIFbcgiwoR5n2isnD2rofkNZP0nfNprsM2r0R4vBTI40DNxeqYNNYUXzLvP/HMeA5RFJqRbI7nuPLdwCFtV9UM/Q6i8GNGCOV3NsfKb0n9vDiP+DJP/dIK6zjVRtG7WWDUL+qmZRjtDJFC/DW90cN1KwcKO9FNfH8UUPxvFAe7xq7x31gkNb1RXxj3Ejd1P6xxVVOk+pxCKThA=
