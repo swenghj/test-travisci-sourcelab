@@ -17,26 +17,8 @@ from optparse import OptionParser
 import time, unittest, os, json
 from autotools import demo_api as api
 from autotools import HTMLTestRunner
-
-testname = "TravisciHerokuWebAutomation-Demo2"
-chromedriver = "../chromedriver"
-current_date = datetime.now()
-profile = None
-
-# travisci environment variables
-username = os.environ.get('SAUCE_USERNAME')
-access_key = os.environ.get('SAUCE_ACCESS_KEY')
-saucelab_environment_details = {
-    'platform': "OS X 10.11",
-    'browserName': "firefox",
-    'version': "44.0",
-    'name': testname,
-    'tunnel-identifier': os.environ.get('TRAVIS_JOB_NUMBER'),
-    'build': os.environ.get('TRAVIS_BUILD_NUMBER'),
-    'tags': [os.environ.get('TRAVIS_PYTHON_VERSION'), 'CI'],
-    'username': username,
-    'key': access_key
-}
+# saucelabs 
+from sauceclient import SauceClient
 
 with open("data/login.json") as data_file:
     server = json.load(data_file)
@@ -44,10 +26,27 @@ with open("data/login.json") as data_file:
 with open("data/input.json") as data_file:
     data = json.load(data_file)
 
+# globals
+testname = "TravisciHerokuWebAutomation-Demo1"
+chromedriver = "../chromedriver"
+current_date = datetime.now()
+profile = None
+
+# saucelabs
+USE_SAUCE = False
+Sauce_Client = None
+saucelab_environment_details = {
+        'platform': "OS X 10.11",
+        'browserName': "firefox",
+        'version': "44.0",
+        'name': testname
+}
+
 # option in command line
 parser = OptionParser()
-parser.add_option("-d", "--driver", action="store", dest="drivername")
 parser.add_option("-u", "--url", action="store", dest="urlname")
+parser.add_option("-i", "--integration", action="store", dest="ciname")
+parser.add_option("-d", "--driver", action="store", dest="drivername")
 (options, args) = parser.parse_args()
 # parsing the URL option
 if options.urlname:
@@ -58,9 +57,24 @@ if options.urlname:
     profile.set_preference("xpinstall.signatures.required", False)
 else: urladdress = server["domain"]
 
+# travisci-saucelab tunnel
+if options.ciname == "travisci": 
+    saucelab_environment_details['tunnel-identifier'] = os.environ.get('TRAVIS_JOB_NUMBER')
+    saucelab_environment_details['build'] = os.environ.get('TRAVIS_BUILD_NUMBER')
+    saucelab_environment_details['tags'] = [os.environ.get('TRAVIS_PYTHON_VERSION'), 'CI']
+
 # parsing the web browser testing option and checking system os
 if options.drivername == "chrome": WebDriver = webdriver.Chrome(chromedriver)
 elif options.drivername == "sauce":
+    # saucelabs
+    # travisci environment variables
+    USE_SAUCE = True
+    username = os.environ.get('SAUCE_USERNAME')
+    access_key = os.environ.get('SAUCE_ACCESS_KEY')
+    Sauce_Client = SauceClient(username, access_key)
+    saucelab_environment_details['username'] = username
+    saucelab_environment_details['key'] = access_key
+
     WebDriver = webdriver.Remote(
         command_executor='http://%s:%s@ondemand.saucelabs.com:80/wd/hub' % (username, access_key),
         desired_capabilities=saucelab_environment_details
@@ -72,8 +86,10 @@ class TravisciHerokuWebAutomation(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        global WebDriver
+        global WebDriver        
         cls.driver = WebDriver
+        global Sauce_Client
+        cls.sauce_client = Sauce_Client
 
     def setUp(self):
         print "setUp"
@@ -82,6 +98,15 @@ class TravisciHerokuWebAutomation(unittest.TestCase):
         try:
             self.driver.get(urladdress)
             self.driver.maximize_window()
+
+            # saucelabs - update saucelab result first
+            if USE_SAUCE:
+                print "annotating true/false in saucelabs dashboard"
+                self.sauce_client.jobs.update_job(self.driver.session_id, passed=True)
+
+            # this is for the local report
+            self.assertTrue(True, "Demo script-2")
+
             time.sleep(3)
         except Exception as e:
             print e
