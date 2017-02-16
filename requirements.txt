@@ -10,3 +10,4 @@ whitenoise==2.0.6
 
 #selenium
 selenium==2.53.1
+sauceclient==0.2.1
