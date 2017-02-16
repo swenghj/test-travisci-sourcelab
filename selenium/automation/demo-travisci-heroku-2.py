@@ -99,12 +99,12 @@ class TravisciHerokuWebAutomation(unittest.TestCase):
             self.driver.get(urladdress)
             self.driver.maximize_window()
 
-            # saucelabs - update saucelab result first
+            # saucelabs - update saucelab result first - forcing True
             if USE_SAUCE:
                 print "annotating true/false in saucelabs dashboard"
                 self.sauce_client.jobs.update_job(self.driver.session_id, passed=True)
 
-            # this is for the local report
+            # this is for the local report - forcing True
             self.assertTrue(True, "Demo script-2")
 
             time.sleep(3)
