@@ -19,7 +19,7 @@ if __name__ == '__main__':
         testfile = None
         for script in scripts:
             testfile = script
-            call("python %s -d sauce" % script, shell=True)
+            call("python %s  -i travisci -d sauce" % script, shell=True)
        
     except Exception as e:
         print e

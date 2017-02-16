@@ -18,6 +18,11 @@ import time, unittest, os, json
 from autotools import demo_api as api
 from autotools import HTMLTestRunner
 
+testname = "TravisciHerokuWebAutomation-Demo2"
+chromedriver = "../chromedriver"
+current_date = datetime.now()
+profile = None
+
 # travisci environment variables
 username = os.environ.get('SAUCE_USERNAME')
 access_key = os.environ.get('SAUCE_ACCESS_KEY')
@@ -25,7 +30,7 @@ saucelab_environment_details = {
     'platform': "OS X 10.11",
     'browserName': "firefox",
     'version': "44.0",
-    'name': "Test: travisci-saucelabs",
+    'name': testname,
     'tunnel-identifier': os.environ.get('TRAVIS_JOB_NUMBER'),
     'build': os.environ.get('TRAVIS_BUILD_NUMBER'),
     'tags': [os.environ.get('TRAVIS_PYTHON_VERSION'), 'CI'],
@@ -39,11 +44,6 @@ with open("data/login.json") as data_file:
 with open("data/input.json") as data_file:
     data = json.load(data_file)
 
-testname = "TravisciHerokuWebAutomation-Demo2"
-chromedriver = "../chromedriver"
-current_date = datetime.now()
-
-profile = None
 # option in command line
 parser = OptionParser()
 parser.add_option("-d", "--driver", action="store", dest="drivername")
