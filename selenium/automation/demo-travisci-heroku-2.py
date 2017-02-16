@@ -27,7 +27,7 @@ with open("data/input.json") as data_file:
     data = json.load(data_file)
 
 # globals
-testname = "TravisciHerokuWebAutomation-Demo1"
+testname = "TravisciHerokuWebAutomation-Demo2"
 chromedriver = "../chromedriver"
 current_date = datetime.now()
 profile = None
