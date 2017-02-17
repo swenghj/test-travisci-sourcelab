@@ -42,6 +42,9 @@ after_deploy:
 - ls .
 - cd selenium/automation
 - python demo-regression.py
+- ls reports
+- git config --global user.name "My Name"
+- git config --global user.email "me@example.com"
 - git add reports/* -f
 - git commit -m "regression results HTMLs"
 - git push https://$GIT_USER:$GIT_API_KEY@github.com/swenghj/test-travisci-sourcelab.git htmlresults -f
