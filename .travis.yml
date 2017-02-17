@@ -19,6 +19,7 @@ script:
 - ls .
 addons:
   sauce_connect: true
+  firefox: "49.0"
 deploy:
   skip_cleanup: true
   provider: heroku
