@@ -36,7 +36,7 @@ python ap/manage.py migrate --noinput
 # automation starts from here
 # run the server
 echo "run the test server"
-python ap/manage.py runserver &
+python ap/manage.py runserver --settings=ap.settings.dev &
 
 # run the regression
 echo "run the regression tests"
