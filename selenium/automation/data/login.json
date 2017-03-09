@@ -1,5 +1,9 @@
 {
   "domain": "localhost:8000",
   "username": "demo@gmail.com",
-  "password": "demo"
+  "password": "demo",
+  "ap-username": "ap@gmail.com",
+  "ap-password": "ap",
+  "ta-username": "ta@gmail.com",
+  "ta-password": "ta"
 }

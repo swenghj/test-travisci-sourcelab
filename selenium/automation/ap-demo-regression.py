@@ -9,12 +9,12 @@
 from subprocess import call
 
 # list of the running scripts
-#scripts = [
-#    "demo-travisci-heroku-1.py",
-#    "demo-travisci-heroku-2.py"
-#]
+scripts = [
+    "ap-demo-automation-1.py"
+    #ap-demo-automation-2.py
+]
 
-scripts = []
+#scripts = []
 
 if __name__ == '__main__':
     try:
