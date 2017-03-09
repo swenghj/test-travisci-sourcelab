@@ -35,12 +35,19 @@ python ap/manage.py migrate --noinput
 
 # automation starts from here
 # run the server
+echo "run the test server"
+python ap/manage.py runserver --noinput &
+
+# run the regression
 echo "run the regression tests"
-python ap/manage.py runserver &
-cd ../; ls.; mkdir saucelab; cd saucelab
+cd ../; ls .; mkdir saucelab; cd saucelab
 git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
 cd test-travisci-sourcelab
 ls .
 cd selenium/automation
+ls .
+
+# run the regressions
+echo "run python-selenium regressions"
 python ap-demo-regression.py
 
