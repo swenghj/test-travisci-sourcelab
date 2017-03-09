@@ -21,7 +21,7 @@
 git clone https://github.com/attendanceproject/djattendance.git
 ls .
 cd djattendance
-DJANGO_SETTINGS_MODULE=ap.settings.travis
+export DJANGO_SETTINGS_MODULE=ap.settings.travis
 pip install -r requirements/dev.txt
 which python
 mypython=$(which python)
@@ -35,13 +35,19 @@ python ap/manage.py migrate --noinput
 
 # automation starts from here
 # run the server
+echo "run the test server"
+python ap/manage.py runserver --noinput &
+
+# run the regression
 echo "run the regression tests"
-python ap/manage.py runserver &
-mkdir saucelab; cd saucelab
+cd ../; ls .; mkdir saucelab; cd saucelab
 git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
 cd test-travisci-sourcelab
 ls .
 cd selenium/automation
+ls .
+
+# run the regressions
+echo "run python-selenium regressions"
 python ap-demo-regression.py
-ls reports
 
