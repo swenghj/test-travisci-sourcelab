@@ -98,6 +98,12 @@ class TravisciHerokuWebAutomation(unittest.TestCase):
         try:
             self.driver.get(urladdress)
             self.driver.maximize_window()
+
+            #if 'hide' exists, minimize it
+            time.sleep(5)
+            if api.is_element_visible(self.driver, "djHideToolBarButton"):
+                api.click_element_by_id(self.driver, "djHideToolBarButton")
+
             
             #login to AP account
             api.send_text_by_tag_name(self.driver, "username", server["ap-username"])
@@ -117,6 +123,7 @@ class TravisciHerokuWebAutomation(unittest.TestCase):
 
             time.sleep(5)
         except Exception as e:
+            if USE_SAUCE: self.sauce_client.jobs.update_job(self.driver.session_id, passed=False)
             print e
             raise Exception("Cannot open URL: ", e)
 
@@ -136,6 +143,31 @@ class TravisciHerokuWebAutomation(unittest.TestCase):
 
             time.sleep(5)
         except Exception as e:
+            if USE_SAUCE: self.sauce_client.jobs.update_job(self.driver.session_id, passed=False)
+            print e
+            raise Exception("Cannot open URL: ", e)
+
+    def test_003_attempt_switch_user(self):
+        try:
+            api.click_element_by_clsname(self.driver, "dropdown-toggle") 
+            xpath = "//*[@class='dropdown-menu']//*[text()='Logout']"           
+            api.click_element_by_xpath(self.driver, xpath)
+            time.sleep(3)
+            api.send_text_by_tag_name(self.driver, "username", server["ta-username"])
+            api.send_text_by_tag_name(self.driver, "password", server["ta-password"], True)
+
+            #reference#
+            # # saucelabs - update saucelab result first
+            # if USE_SAUCE:
+            #     print "annotating true/false in saucelabs dashboard"                
+            #     self.sauce_client.jobs.update_job(self.driver.session_id, passed=res) 
+
+            # # this is for the local report
+            # self.assertTrue(res, "Text(Of course,) not in the instructions")
+
+            time.sleep(5)
+        except Exception as e:
+            if USE_SAUCE: self.sauce_client.jobs.update_job(self.driver.session_id, passed=False)
             print e
             raise Exception("Cannot open URL: ", e)
 
@@ -163,10 +195,10 @@ if __name__ == '__main__':
                 )
 
     # run the test
-    runner.run(suite)
+    #runner.run(suite)
 
     # output result on console for debugging
-    #unittest.TextTestRunner(verbosity=2).run(suite)
+    unittest.TextTestRunner(verbosity=2).run(suite)
     
     # close output file
     fp.close()
