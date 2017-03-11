@@ -34,9 +34,23 @@ python ap/makeallmigrations.py
 python ap/manage.py migrate --noinput
 
 # automation starts from here
+
+# create a super user
+echo "super user creation"
+echo "from django.contrib.auth.models import User; User.objects.filter(email='ap@gmail.com').delete(); User.objects.create_superuser('ap@gmail.com', 'ap@gmail.com', 'ap')" | python manage.py shell
+
+# populate initial data
+python manage.py populate_trainees
+python manage.py populate_events 
+python manage.py populate_tas
+python manage.py populate_terms
+python manage.py populate_rolls #the population script runs it for the 2016 winter term
+
 # run the server
 echo "run the test server"
-python ap/manage.py runserver --settings=ap.settings.dev &
+#python ap/manage.py runserver --settings=ap.settings.dev &
+python ap/manage.py runserver &
+sleep 30
 
 # run the regression
 echo "run the regression tests"
@@ -45,6 +59,7 @@ git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
 cd test-travisci-sourcelab
 ls .
 cd selenium/automation
+echo "inside 'automation' directory"
 ls .
 
 # run the regressions
