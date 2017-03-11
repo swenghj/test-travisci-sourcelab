@@ -37,14 +37,14 @@ python ap/manage.py migrate --noinput
 
 # create a super user
 echo "super user creation"
-echo "from django.contrib.auth.models import User; User.objects.filter(email='ap@gmail.com').delete(); User.objects.create_superuser('ap@gmail.com', 'ap@gmail.com', 'ap')" | python manage.py shell
+echo "from django.contrib.auth.models import User; User.objects.filter(email='ap@gmail.com').delete(); User.objects.create_superuser('ap@gmail.com', 'ap@gmail.com', 'ap')" | python ap/manage.py shell
 
 # populate initial data
-python manage.py populate_trainees
-python manage.py populate_events 
-python manage.py populate_tas
-python manage.py populate_terms
-python manage.py populate_rolls #the population script runs it for the 2016 winter term
+python ap/manage.py populate_trainees
+python ap/manage.py populate_events 
+python ap/manage.py populate_tas
+python ap/manage.py populate_terms
+python ap/manage.py populate_rolls #the population script runs it for the 2016 winter term
 
 # run the server
 echo "run the test server"
