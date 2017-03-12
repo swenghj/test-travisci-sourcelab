@@ -107,7 +107,11 @@ class TravisciHerokuWebAutomation(unittest.TestCase):
             
             #login to AP account
             api.send_text_by_tag_name(self.driver, "username", server["ap-username"])
-            api.send_text_by_tag_name(self.driver, "password", server["ap-password"], True)
+            #api.send_text_by_tag_name(self.driver, "password", server["ap-password"], True)
+
+            xpath = '//*[@id="content"]/form/div[3]/div/input'
+            api.send_text_by_tag_name(self.driver, "password", server["ap-password"])
+            api.click_element_by_xpath(self.driver, xpath)
 
             #reference#
             # elem = self.driver.find_element_by_id('summary')
