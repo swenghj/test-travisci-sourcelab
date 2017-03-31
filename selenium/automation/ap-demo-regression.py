@@ -10,8 +10,8 @@ from subprocess import call
 
 # list of the running scripts
 scripts = [
-    "ap-demo-automation-1.py"
-    #ap-demo-automation-2.py
+    "ap-demo-automation-1.py",
+    "ap-demo-automation-2.py"
 ]
 
 #scripts = []
