@@ -42,9 +42,9 @@ echo "from django.contrib.auth.models import User; User.objects.filter(email='ap
 # populate initial data
 python ap/manage.py populate_testers
 python ap/manage.py populate_events 
-python ap/manage.py populate_tas
+#python ap/manage.py populate_tas
 python ap/manage.py populate_terms
-python ap/manage.py populate_rolls #the population script runs it for the 2016 winter term
+#python ap/manage.py populate_rolls #the population script runs it for the 2016 winter term
 
 # run the server
 echo "run the test server"
@@ -55,8 +55,10 @@ sleep 30
 # run the regression
 echo "run the regression tests"
 cd ../; ls .; mkdir saucelab; cd saucelab
-git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
-cd test-travisci-sourcelab
+#git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
+git clone -b automation https://github.com/attendanceproject/djattendance.git
+#cd test-travisci-sourcelab
+cd djattendance
 ls .
 cd selenium/automation
 echo "inside 'automation' directory"
@@ -64,5 +66,5 @@ ls .
 
 # run the regressions
 echo "run python-selenium regressions"
-python ap-demo-regression.py
-
+#python ap-demo-regression.py
+python run_regression.py
