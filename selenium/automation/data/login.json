@@ -2,8 +2,9 @@
   "domain": "localhost:8000",
   "username": "demo@gmail.com",
   "password": "demo",
-  "ap-username": "ap@gmail.com",
+  "ap-username": "tester1.trainee@gmail.com",
   "ap-password": "ap",
-  "ta-username": "ta@gmail.com",
-  "ta-password": "ta"
+  "ta-username": "ta_tester.ta@gmail.com",
+  "ta-password": "ap"
 }
+
