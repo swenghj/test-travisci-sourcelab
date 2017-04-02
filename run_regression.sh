@@ -30,26 +30,27 @@ virtualenvpath=$(python -c "from distutils.sysconfig import get_python_lib; prin
 sudo chmod -R +rw $virtualenvpath
 psql -c 'create database djattendance;' -U postgres
 psql -d djattendance -c "CREATE EXTENSION IF NOT EXISTS hstore;"
-python ap/makeallmigrations.py
-python ap/manage.py migrate --noinput
+python ap/makeallmigrations.py --settings=ap.settings.dev
+#python ap/manage.py migrate --noinput
+python ap/manage.py migrate --settings=ap.settings.dev
 
 # automation starts from here
 
 # create a super user
-echo "super user creation"
-echo "from django.contrib.auth.models import User; User.objects.filter(email='ap@gmail.com').delete(); User.objects.create_superuser('ap@gmail.com', 'ap@gmail.com', 'ap')" | python ap/manage.py shell
+#echo "super user creation"
+#echo "from django.contrib.auth.models import User; User.objects.filter(email='ap@gmail.com').delete(); User.objects.create_superuser('ap@gmail.com', 'ap@gmail.com', 'ap')" | python ap/manage.py shell
 
 # populate initial data
-python ap/manage.py populate_testers
-python ap/manage.py populate_events 
+python ap/manage.py populate_testers --settings=ap.settings.dev
+python ap/manage.py populate_events --settings=ap.settings.dev
 #python ap/manage.py populate_tas
-python ap/manage.py populate_terms
+python ap/manage.py populate_terms --settings=ap.settings.dev
 #python ap/manage.py populate_rolls #the population script runs it for the 2016 winter term
 
 # run the server
 echo "run the test server"
-#python ap/manage.py runserver --settings=ap.settings.dev &
-python ap/manage.py runserver &
+python ap/manage.py runserver --settings=ap.settings.dev &
+#python ap/manage.py runserver &
 sleep 30
 
 # run the regression
