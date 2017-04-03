@@ -30,9 +30,10 @@ virtualenvpath=$(python -c "from distutils.sysconfig import get_python_lib; prin
 sudo chmod -R +rw $virtualenvpath
 psql -c 'create database djattendance;' -U postgres
 psql -d djattendance -c "CREATE EXTENSION IF NOT EXISTS hstore;"
-python ap/makeallmigrations.py --settings=ap.settings.dev
-#python ap/manage.py migrate --noinput
-python ap/manage.py migrate --settings=ap.settings.dev
+#python ap/makeallmigrations.py --settings=ap.settings.dev
+python ap/makeallmigrations.py
+python ap/manage.py migrate --noinput
+#python ap/manage.py migrate --settings=ap.settings.dev
 
 # automation starts from here
 
