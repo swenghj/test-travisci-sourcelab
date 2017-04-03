@@ -37,8 +37,8 @@ python ap/manage.py migrate --settings=ap.settings.dev
 # automation starts from here
 
 # create a super user
-#echo "super user creation"
-#echo "from django.contrib.auth.models import User; User.objects.filter(email='ap@gmail.com').delete(); User.objects.create_superuser('ap@gmail.com', 'ap@gmail.com', 'ap')" | python ap/manage.py shell
+echo "super user creation"
+echo "from accounts.models import User; User.objects.filter(email='ap_test@gmail.com').delete(); User.objects.create_superuser('ap_test@gmail.com', 'ap')" | python ap/manage.py shell --settings=ap.settings.dev
 
 # populate initial data
 python ap/manage.py populate_testers --settings=ap.settings.dev
