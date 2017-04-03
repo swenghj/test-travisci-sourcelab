@@ -43,9 +43,9 @@ echo "from accounts.models import User; User.objects.filter(email='ap_test@gmail
 # populate initial data
 python ap/manage.py populate_testers --settings=ap.settings.dev
 python ap/manage.py populate_events --settings=ap.settings.dev
-#python ap/manage.py populate_tas
+#python ap/manage.py populate_tas --settings=ap.settings.dev
 python ap/manage.py populate_terms --settings=ap.settings.dev
-#python ap/manage.py populate_rolls #the population script runs it for the 2016 winter term
+python ap/manage.py populate_rolls --settings=ap.settings.dev #the population script runs it for the 2016 winter term
 
 # run the server
 echo "run the test server"
