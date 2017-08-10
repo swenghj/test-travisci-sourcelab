@@ -23,9 +23,13 @@
 #-- ap test: SET UP TEST ENVIRONMENT --#
 sudo apt-get install nodejs npm -y
 git clone https://github.com/attendanceproject/djattendance.git
+sudo chmod 775 djattendance/ -R
+echo "######### download finished, current directory: #########"
 ls .
+echo "######### moved to inside: #########"
 cd djattendance
-export DJANGO_SETTINGS_MODULE=ap.settings.test
+ls .
+export DJANGO_SETTINGS_MODULE=ap.settings.travis
 pip install -r requirements/dev.txt
 which python
 mypython=$(which python)
@@ -43,7 +47,7 @@ psql -c 'create database djattendance;' -U postgres
 psql -d djattendance -c "CREATE EXTENSION IF NOT EXISTS hstore;"
 
 # Attendance build 
-echo "Loading webpack ... ..."
+echo "######### Loading webpack ... ... #########"
 npm run start > run_webpack.log 2>&1 &
 ############ wait ############
 while ! grep -qw "webpack: Compiled successfully." run_webpack.log; do sleep 5; done
@@ -57,7 +61,7 @@ python ap/manage.py migrate
 # automation starts from here
 ################################################################################################
 # create a super user
-echo "super user creation"
+echo "######### super user creation #########"
 echo "from accounts.models import User; User.objects.filter(email='ap_test@gmail.com').delete(); User.objects.create_superuser('ap_test@gmail.com', 'ap')" | python ap/manage.py shell
 
 # populate initial data
@@ -73,12 +77,12 @@ python manage.py populate_schedules #--settings=ap.settings.test
 #python ap/manage.py populate_testers
 
 # run the server
-echo "Loading Django ... ..."
+echo "######### Loading Django ... ... #########"
 python ap/manage.py runserver &
 sleep 30
 
 # run the regression
-echo "run the regression tests"
+echo "######### run the regression tests #########"
 cd ../; ls .; mkdir saucelab; cd saucelab
 #git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
 git clone -b automation https://github.com/attendanceproject/djattendance.git
@@ -86,10 +90,10 @@ git clone -b automation https://github.com/attendanceproject/djattendance.git
 cd djattendance
 ls .
 cd selenium/automation
-echo "inside 'automation' directory"
+echo "######### inside 'automation' directory #########"
 ls .
 
 # run the regressions
-echo "run python-selenium regressions"
+echo "######### run python-selenium regressions #########"
 #python ap-demo-regression.py
 python run_regression.py
