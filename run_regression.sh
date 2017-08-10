@@ -60,18 +60,19 @@ python ap/manage.py migrate
 ################################################################################################
 # automation starts from here
 ################################################################################################
+
+# populate initial data
+python ap/manage.py populate_terms #--settings=ap.settings.test
+python ap/manage.py populate_services #--settings=ap.settings.test
+python ap/manage.py populate_trainees #--settings=ap.settings.test
+python ap/manage.py populate_tas #--settings=ap.settings.test
+python ap/manage.py populate_events #--settings=ap.settings.test
+python ap/manage.py populate_rolls #--settings=ap.settings.test
+python ap/manage.py populate_schedules #--settings=ap.settings.test
+
 # create a super user
 echo "######### super user creation #########"
 echo "from accounts.models import User; User.objects.filter(email='ap_test@gmail.com').delete(); User.objects.create_superuser('ap_test@gmail.com', 'ap')" | python ap/manage.py shell
-
-# populate initial data
-python manage.py populate_terms #--settings=ap.settings.test
-python manage.py populate_services #--settings=ap.settings.test
-python manage.py populate_trainees #--settings=ap.settings.test
-python manage.py populate_tas #--settings=ap.settings.test
-python manage.py populate_events #--settings=ap.settings.test
-python manage.py populate_rolls #--settings=ap.settings.test
-python manage.py populate_schedules #--settings=ap.settings.test
 
 ##### TODO: fix tester population #####
 #python ap/manage.py populate_testers
@@ -79,7 +80,7 @@ python manage.py populate_schedules #--settings=ap.settings.test
 # run the server
 echo "######### Loading Django ... ... #########"
 python ap/manage.py runserver &
-sleep 30
+sleep 40
 
 # run the regression
 echo "######### run the regression tests #########"
