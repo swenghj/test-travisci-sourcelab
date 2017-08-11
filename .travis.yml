@@ -34,19 +34,28 @@ addons:
 #- ./run_regression.sh
 #- test $TRAVIS_TEST_RESULT = 0 && ./run_regression.sh
 deploy:
-  skip_cleanup: true
-  provider: heroku
-  api_key:
-    secure: gWgzt6v+3SE6WL031EfCVFk+gg00CDVfTfbY+oaRnK52y5cKYWFVOF8hUYvdbREu7xrrBPIcPJXHqBA8fh+WXyQG5LHVCr+Hk8HfnhqmPvhLVLsST/B0vDL6C29v1/muTor18MaoZgAEAX/SasjNQCwZOm9cznDooQXBiPzRm9R3bxcDztyXTAT7DfT7MUyqYlm1wosFBvxNZP9yUjlNtAhiDydNmDIw5QSOyutAKYT6fb6/9MVDUPMLVZ1Fz6D5Z2Hp/mn2KQoOBnbY/URBz+IuuxS3GJh8WADo9xuhbNQKiPd8XHmiSnR6PnhpVcfkQknUVGIbBOKNtCO8n3+JuA0cztGC4BO5EXNcKm7/nITkcI2+2tqEUT7dLcLspk5q+xYftAIDl9HXflqwWvIwQxPfrNNg+XkX9C0czXuI6gZtZIrpJPgpF3qn/2tC0MePbl2EO2RBsj8XfGhcNNnnCcnxfxlxWSiXOjmAJmez2EF58SM7PPAZdFxIFRWSTvpSYpSDxhnV8NlpBvN+3BYehXcykyXBKmK69NJvFHH7+NtFVxgHbl/6aI5AlLat6JdVTSqV8tiAfiqdwSJ2Wmq1TLlWgZyMX88t6vFEhNGfa/DGzhvrzweeHJsPEniaormLjmRUjnrsCQ2lL/tNxHDIiAMgDxZv10EdkZfacv+uGVg=
-  on:
-    branch: master
-  app: test-travisci-heroku
-  run:
-  - ls .
-  - tpython=$(which python)
-  - "$tpython testsite/manage.py makemigrations"
-  - "$tpython testsite/manage.py migrate"
-  - restart
+  - provider: heroku
+    skip_cleanup: true
+    api_key:
+      secure: gWgzt6v+3SE6WL031EfCVFk+gg00CDVfTfbY+oaRnK52y5cKYWFVOF8hUYvdbREu7xrrBPIcPJXHqBA8fh+WXyQG5LHVCr+Hk8HfnhqmPvhLVLsST/B0vDL6C29v1/muTor18MaoZgAEAX/SasjNQCwZOm9cznDooQXBiPzRm9R3bxcDztyXTAT7DfT7MUyqYlm1wosFBvxNZP9yUjlNtAhiDydNmDIw5QSOyutAKYT6fb6/9MVDUPMLVZ1Fz6D5Z2Hp/mn2KQoOBnbY/URBz+IuuxS3GJh8WADo9xuhbNQKiPd8XHmiSnR6PnhpVcfkQknUVGIbBOKNtCO8n3+JuA0cztGC4BO5EXNcKm7/nITkcI2+2tqEUT7dLcLspk5q+xYftAIDl9HXflqwWvIwQxPfrNNg+XkX9C0czXuI6gZtZIrpJPgpF3qn/2tC0MePbl2EO2RBsj8XfGhcNNnnCcnxfxlxWSiXOjmAJmez2EF58SM7PPAZdFxIFRWSTvpSYpSDxhnV8NlpBvN+3BYehXcykyXBKmK69NJvFHH7+NtFVxgHbl/6aI5AlLat6JdVTSqV8tiAfiqdwSJ2Wmq1TLlWgZyMX88t6vFEhNGfa/DGzhvrzweeHJsPEniaormLjmRUjnrsCQ2lL/tNxHDIiAMgDxZv10EdkZfacv+uGVg=
+    on:
+      branch: master
+    app: test-travisci-heroku
+    run:
+    - ls .
+    - tpython=$(which python)
+    - "$tpython testsite/manage.py makemigrations"
+    - "$tpython testsite/manage.py migrate"
+    - restart
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: G39fisZBxQD0QIhBTx4SRth/Ewo6nHVFnlItuq+ZmOp3WCn9tvFbxCpCP5wqg7+oP0AcOKnPSDHk5hDLEI1f48Z7WCWbVYMWtQYaDONB0Uc1vWF2EkCjBC5lZcTtMuuPwcmt3wGRlsRP5UStOyJbJqxLl7EBjxeCRKm6r+h+ekZbnIlKqRKDBbqZGCBqD1xkUa5nvsEPrEI5GsLVceQqI9i1QmBUv4rHHhUHJ1Jwaxb6n5SaO4CK21i+3gmc6iX7QkmDjdO/MmY50yvcOz1YyegFqa6pCpniLJJOPR6wvnjCpl8FocSxkb1ftBLweGp9DqJEbRfcMUty72fiRvTuCqlsnzDGzYueLr/5TuIyCEA9VXwNe1AzQ+SE36R0YNZkwBJUMaEhMBu+vQSzpZN/mYkb+Pf+pX7t4iTHytyc5E1Pvn35jSH6qeV8D5EtqPikra9HKGIPA4ecNhRrs6F+7otd522AOMNwjr0Y/bLUOBBrNmLz0wfIr7UCf2pY6Bbwswqu6WPpOliG41MAhBQTvil5sjD9i3gxS/GzMTU4N9bpr0HDEW3LUt6BmHM2Z6iXrSpPqB5eKI0/YHTNar5j8smZ+OjQSSxa/tK6Wp1bVUQkUWOb5Qz8KajuoQ5E1bvKDi/aI/gXBQH0VeXsM+eV/aEas6O0B7jNRxUJCtOjQ38=
+    file_glob: true
+    file: $TRAVIS_BUILD_DIR/saucelab/djattendance/selenium/automation/reports/*
+    on:
+      tags: true
+    overwrite: true
 #after_deploy:
 #- ./run_regression.sh
 ##### REGRESSION TEST RUN IDEA #####

@@ -104,4 +104,6 @@ echo "######### email test results: inside report directory #########"
 ls reports
 echo "######### TRAVIS BUILD DIR #########"
 echo $TRAVIS_BUILD_DIR
+echo "######### TRAVIS BUILD DIR: test results #########"
+ls $TRAVIS_BUILD_DIR/saucelab/djattendance/selenium/automation/reports/
 
