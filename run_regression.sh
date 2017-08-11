@@ -98,3 +98,10 @@ ls .
 echo "######### run python-selenium regressions #########"
 #python ap-demo-regression.py
 python run_regression.py
+
+# email test results
+echo "######### email test results: inside report directory #########"
+ls reports
+echo "######### TRAVIS BUILD DIR #########"
+echo $TRAVIS_BUILD_DIR
+
