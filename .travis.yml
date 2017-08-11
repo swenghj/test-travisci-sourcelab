@@ -28,8 +28,8 @@ addons:
   # ap related -->
   postgresql: '9.3'
   # <-- ap related
-before_deploy:
-- ./run_regression.sh
+#before_deploy:
+#- ./run_regression.sh
 #- test $TRAVIS_TEST_RESULT = 0 && ./run_regression.sh
 deploy:
   skip_cleanup: true
@@ -45,6 +45,8 @@ deploy:
   - "$tpython testsite/manage.py makemigrations"
   - "$tpython testsite/manage.py migrate"
   - restart
+after_deploy:
+- ./run_regression.sh
 ##### REGRESSION TEST RUN IDEA #####
 # e.g.
 #- python testsite/manage.py runserver &
