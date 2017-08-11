@@ -55,7 +55,7 @@ deploy:
     file: $TRAVIS_BUILD_DIR/saucelab/djattendance/selenium/automation/reports/*
     on:
       tags: true
-    overwrite: true
+#    overwrite: true
 #after_deploy:
 #- ./run_regression.sh
 ##### REGRESSION TEST RUN IDEA #####
