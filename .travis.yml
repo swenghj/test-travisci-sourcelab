@@ -20,7 +20,6 @@ before_script:
 script:
 - python testsite/manage.py makemigrations
 - python testsite/manage.py migrate
-- echo "##### current directory #####"
 - pwd
 - ls .
 addons:
