@@ -22,6 +22,8 @@ script:
 - python testsite/manage.py migrate
 - pwd
 - ls .
+after_success:
+- ./run_regression.sh
 addons:
   sauce_connect: true
   firefox: "49.0"
@@ -45,8 +47,8 @@ deploy:
   - "$tpython testsite/manage.py makemigrations"
   - "$tpython testsite/manage.py migrate"
   - restart
-after_deploy:
-- ./run_regression.sh
+#after_deploy:
+#- ./run_regression.sh
 ##### REGRESSION TEST RUN IDEA #####
 # e.g.
 #- python testsite/manage.py runserver &
