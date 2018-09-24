@@ -20,29 +20,49 @@ before_script:
 script:
 - python testsite/manage.py makemigrations
 - python testsite/manage.py migrate
+- pwd
 - ls .
+after_success:
+- ./run_regression.sh
 addons:
   sauce_connect: true
   firefox: "49.0"
   # ap related -->
   postgresql: '9.3'
   # <-- ap related
+#before_deploy:
+#- ./run_regression.sh
+#- test $TRAVIS_TEST_RESULT = 0 && ./run_regression.sh
 deploy:
-  skip_cleanup: true
-  provider: heroku
-  api_key:
-    secure: gWgzt6v+3SE6WL031EfCVFk+gg00CDVfTfbY+oaRnK52y5cKYWFVOF8hUYvdbREu7xrrBPIcPJXHqBA8fh+WXyQG5LHVCr+Hk8HfnhqmPvhLVLsST/B0vDL6C29v1/muTor18MaoZgAEAX/SasjNQCwZOm9cznDooQXBiPzRm9R3bxcDztyXTAT7DfT7MUyqYlm1wosFBvxNZP9yUjlNtAhiDydNmDIw5QSOyutAKYT6fb6/9MVDUPMLVZ1Fz6D5Z2Hp/mn2KQoOBnbY/URBz+IuuxS3GJh8WADo9xuhbNQKiPd8XHmiSnR6PnhpVcfkQknUVGIbBOKNtCO8n3+JuA0cztGC4BO5EXNcKm7/nITkcI2+2tqEUT7dLcLspk5q+xYftAIDl9HXflqwWvIwQxPfrNNg+XkX9C0czXuI6gZtZIrpJPgpF3qn/2tC0MePbl2EO2RBsj8XfGhcNNnnCcnxfxlxWSiXOjmAJmez2EF58SM7PPAZdFxIFRWSTvpSYpSDxhnV8NlpBvN+3BYehXcykyXBKmK69NJvFHH7+NtFVxgHbl/6aI5AlLat6JdVTSqV8tiAfiqdwSJ2Wmq1TLlWgZyMX88t6vFEhNGfa/DGzhvrzweeHJsPEniaormLjmRUjnrsCQ2lL/tNxHDIiAMgDxZv10EdkZfacv+uGVg=
-  on:
-    branch: master
-  app: test-travisci-heroku
-  run:
-  - ls .
-  - tpython=$(which python)
-  - "$tpython testsite/manage.py makemigrations"
-  - "$tpython testsite/manage.py migrate"
-  - restart
-after_deploy:
-- ./run_regression.sh
+  - provider: heroku
+    skip_cleanup: true
+    api_key:
+      secure: gWgzt6v+3SE6WL031EfCVFk+gg00CDVfTfbY+oaRnK52y5cKYWFVOF8hUYvdbREu7xrrBPIcPJXHqBA8fh+WXyQG5LHVCr+Hk8HfnhqmPvhLVLsST/B0vDL6C29v1/muTor18MaoZgAEAX/SasjNQCwZOm9cznDooQXBiPzRm9R3bxcDztyXTAT7DfT7MUyqYlm1wosFBvxNZP9yUjlNtAhiDydNmDIw5QSOyutAKYT6fb6/9MVDUPMLVZ1Fz6D5Z2Hp/mn2KQoOBnbY/URBz+IuuxS3GJh8WADo9xuhbNQKiPd8XHmiSnR6PnhpVcfkQknUVGIbBOKNtCO8n3+JuA0cztGC4BO5EXNcKm7/nITkcI2+2tqEUT7dLcLspk5q+xYftAIDl9HXflqwWvIwQxPfrNNg+XkX9C0czXuI6gZtZIrpJPgpF3qn/2tC0MePbl2EO2RBsj8XfGhcNNnnCcnxfxlxWSiXOjmAJmez2EF58SM7PPAZdFxIFRWSTvpSYpSDxhnV8NlpBvN+3BYehXcykyXBKmK69NJvFHH7+NtFVxgHbl/6aI5AlLat6JdVTSqV8tiAfiqdwSJ2Wmq1TLlWgZyMX88t6vFEhNGfa/DGzhvrzweeHJsPEniaormLjmRUjnrsCQ2lL/tNxHDIiAMgDxZv10EdkZfacv+uGVg=
+    on:
+      branch: master
+    app: test-travisci-heroku
+    run:
+    - ls .
+    - tpython=$(which python)
+    - "$tpython testsite/manage.py makemigrations"
+    - "$tpython testsite/manage.py migrate"
+    - restart
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: pHh50Kc+T27Xaz+oz2mQaIVw/U8bk3u1DF2WaRnsPc7xTtYR+MjxPU54DD3Zz+Jcf2NTgL6VqykKojzpEFQINmJ+aC+vlmAaXfNq/fhDosLxTe93M0UXTx5Wk3dLYAPB0hJoZ/M8D8mea1XGAWDn7slNgnhu6fXrsPAOBVCnf0xnz/7IA7L0e1dLI4iaKswg3LvhuKvFkOJKl2aLWtZOMZmDHtJgXYY5dG+zy0qHVByHxrDi+05EYUCYaIaN4nCc16RCnwr+yTYNt1QeIs+S3XagIyk3fxnn7GXctuZBQ3PXuqfb9YuvHLMgg57zxet+bc320+qEACyt91T3iFLAh7olMPrxRryfeP5Ctk8ZvE5m4U4YqhHtTVwy9N1A6foLpICyR4RHh5jxXHWfOhRu2scFqeBImuANxpHA+1LK8kD9MIk/doCYaIE+R/GhQBTweXnzCoodi4zn5aqe2D6k2Dadck/Fx5eNHbRzB8srjhY79Y3lmLZwklVj9bXk9a2MZKB1SX1syJd88s/oM2UKfKyDyUoA6XdQgQZlXZ8E9vMirS9nfHrH0zA/EMO40/n/KzSs4eIWpJed0U6l2EdY3u3K23YwyITQvXHDtjfPbdvRMBtpTDVtnmaJiz2LhsRoYpi0kDRhcUswNeKgl8k303fQ/mHsmEL34ho5RS1ofyE=
+    file_glob: true
+    file: $TRAVIS_BUILD_DIR/saucelab/djattendance/selenium/automation/reports/*
+    on:
+      branch: master
+      overwrite: true
+#      tags: true
+#    all_branches: true
+#    overwrite: true
+#after_deploy:
+#- ./run_regression.sh
+##### REGRESSION TEST RUN IDEA #####
+# e.g.
 #- python testsite/manage.py runserver &
 #- mkdir saucelab; cd saucelab
 #- git clone -b selenium https://github.com/swenghj/test-travisci-sourcelab.git
@@ -58,6 +78,12 @@ after_deploy:
 #- git add reports/* -f
 #- git commit -m "regression results HTMLs"
 #- git push https://$GIT_USER:$GIT_API_KEY@github.com/swenghj/test-travisci-sourcelab.git htmlresults -f
+notifications:
+  email:
+    recipients:
+    - yaui80@yahoo.com
+    on_success: always
+    on_failure: always
 env:
   global:
   - secure: Ustn65jLoW3uT0qtZGfMKA+DE80/oTGhCc1OARWhHofHqn293H4fB0FhHqXaRo5ViiQ2Z4SieoOPmAmXkG1WQAV0m7kr9nM+3hwLR5F23T7oL/IgElelOwon49EgltbCPg6I9+silZvXTQqefg2ZqEyTCXwIy4tgY5lUnPfM8vnJGnJmm72Pzg598A2jMnMOR7xYeJoA2Se+6R8ehO2T3XdeJXXq//iv+m3HcF704bA1SeaVqgpGCowb8Mv6HDlGGbY/nqOkK91ElMv8kiWgkkFbVThYkATCX6e6JAMog0th6y8eCmBrK6+0SUWz9EoOKmrrGeBT3LCsvAelBl8zQa44NRPs4ekAT2dRdY11xj+UredVLVS+hmf30/9omOnkvy2jKmO5q/EdRZXUOy9isU0a8K5/vnRqYJ8h0+6KWkaR4MgjTGkpV67t0tQ/qxNHcm5ta+xYCry2fB5Hjo2vcwPImu6g+AObhs3InWTpq4FT4b0IxHYGoZ1o8DfmK0EiY3YUx25kJDsz1/24tPEdbkmPLo5j2HbQPgkDuWEBuhcX6k3eUd4kK9RAdZpBNURYVpO6E5yl3WhBX3Tlx1aYCfHFls2XuXSWsmEYEVVThULRsLIuCxb0thp4bf6W2teuraDsnSOMhv9sypdhewAjCG6NdJka/nwdB4kV5WleCFc=
